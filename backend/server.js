@@ -25,8 +25,7 @@ const PORT = process.env.PORT || 5000;
 // --- GÜNCELLENMİŞ CORS AYARI ---
 const allowedOrigins = [
   "https://mernstack-ecommerce-website-1.onrender.com",  // production frontend
-  "http://localhost:3000",                                // local frontend
-  "http://127.0.0.1:3000"
+
 ];
 
 app.use(cors({
