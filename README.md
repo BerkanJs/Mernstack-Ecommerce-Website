@@ -34,6 +34,10 @@ Projeyi geliştirirken şu motivasyonlar ön plandaydı:
 - 🔒 **Admin Yetkileri:** Ürün ekleme, silme, öne çıkarma işlemleri için korumalı rotalar  
 - ⚡ **Cache:** Redis ile performans ve hız optimizasyonu  
 - ☁️ **Bulut Entegrasyonu:** Cloudinary ile medya yönetimi
+- 🐳 Docker & Deploy  Frontend, backend ve ML API için çoklu ya da tek konteyner Docker yapısı
+ 
+
+
 
 ---
 
