@@ -24,17 +24,19 @@ const storeRefreshToken = async (userId, refreshToken) => {
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("accessToken", accessToken, {
-    httpOnly: true, // prevent XSS attacks, cross site scripting attack
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none", // prevents CSRF attack, cross-site request forgery attack
-    maxAge: 15 * 60 * 1000, // 15 minutes
+    httpOnly: true,
+    secure: isProduction, // HTTPS ise true
+    sameSite: isProduction ? "none" : "lax", // cross-site ise 'none'
+    maxAge: 15 * 60 * 1000, // 15 dakika
   });
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true, // prevent XSS attacks, cross site scripting attack
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none", // prevents CSRF attack, cross-site request forgery attack
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 gün
   });
 };
 
