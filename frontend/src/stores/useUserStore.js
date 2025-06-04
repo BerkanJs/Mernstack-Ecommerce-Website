@@ -73,8 +73,29 @@ logout: async () => {
   } catch (error) {
     toast.error(error.response?.data?.message || "An error occurred during logout");
   }
-}
+},
+
+
+refreshToken: async () => {
+  try {
+    const res = await axios.post('/auth/refresh-token', {}, { withCredentials: true });
     
+    
+    if (res.data.accessToken) {
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
+    }
+
+
+    const profile = await axios.get('/auth/profile', { withCredentials: true });
+    set({ user: profile.data });
+
+  } catch (error) {
+    set({ user: null });
+    throw error;
+  }
+}
+
 
 
 
