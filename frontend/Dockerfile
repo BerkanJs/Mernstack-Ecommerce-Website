@@ -1,28 +1,32 @@
-# 1. Base image
+# 1. Build aşaması
 FROM node:18 AS builder
 
-# 2. Çalışma dizini oluştur
+# 2. Çalışma dizini
 WORKDIR /app
 
 # 3. Bağımlılıkları yükle
 COPY package.json package-lock.json* ./
 RUN npm install
 
-# 4. ARG ile .env değişkenini al
+# 4. Ortam değişkeni alma (opsiyonel)
 ARG VITE_API_BASE_URL
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 
-# 5. Proje dosyalarını kopyala
+# 5. Proje dosyalarını kopyala ve build al
 COPY . .
-
-# 6. Production build al
 RUN npm run build
 
-# 7. Production için lightweight image
+# 6. Production için nginx image
 FROM nginx:stable-alpine
+
+# 7. Build edilmiş dosyaları kopyala
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# 8. Port
+# 8. Nginx SPA yönlendirmesi için özel config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# 9. Port aç
 EXPOSE 80
 
+# 10. Başlat
 CMD ["nginx", "-g", "daemon off;"]
